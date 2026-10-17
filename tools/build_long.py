@@ -73,19 +73,34 @@ ff("-i", W("bg.mp4"), "-i", W("cut.mp4"), "-filter_complex",
    f"[0:v][pip]overlay=W-w-40:H-h-40{labels},{V}[v]",
    "-map", "[v]", "-map", "1:a", *ENC, *AUD, "-shortest", W("body.mp4"))
 
-# 3. Ending b-roll (no voice), the sting, the music from where the voice ends.
-e = cfg["long"]["ending"]
-ff("-ss", e.get("from", 0), "-t", e["duration"], "-i", ep.asset(e["file"]), "-f", "lavfi", "-t", e["duration"],
-   "-i", "anullsrc=r=48000:cl=stereo", "-vf",
-   f"scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,fade=t=out:st={e['duration'] - 1}:d=1,{V}",
-   "-map", "0:v", "-map", "1:a", *ENC, *AUD, "-shortest", W("ending.mp4"))
+# 3. The close. Only when the script plans one (long.ending), a stretch of b-roll with music and no voice before
+#    the sting; otherwise, like the Short, straight from the last word into the sting with a 0.5 s crossfade, the
+#    music starting there.
 ff("-i", ep.asset(ch["brand"]["sting_h"]), "-vf", f"scale=1920:1080:flags=lanczos,{V}", *ENC, *AUD, W("sting_h.mp4"))
-parts = ([W("intro.mp4")] if intro_take else []) + [W("body.mp4"), W("ending.mp4"), W("sting_h.mp4")]
-with open(W("long.txt"), "w") as f:
-    for p in parts:
-        f.write(f"file '{p}'\n")
-ff("-f", "concat", "-safe", "0", "-i", W("long.txt"), "-vf", V, *ENC, *AUD, W("long_voice.mp4"))
-music_at = (duration(W("intro.mp4")) if intro_take else 0.0) + duration(W("body.mp4"))
+talk = ([W("intro.mp4")] if intro_take else []) + [W("body.mp4")]
+e = cfg["long"].get("ending")
+if e:
+    ff("-ss", e.get("from", 0), "-t", e["duration"], "-i", ep.asset(e["file"]), "-f", "lavfi", "-t", e["duration"],
+       "-i", "anullsrc=r=48000:cl=stereo", "-vf",
+       f"scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,fade=t=out:st={e['duration'] - 1}:d=1,{V}",
+       "-map", "0:v", "-map", "1:a", *ENC, *AUD, "-shortest", W("ending.mp4"))
+    with open(W("long.txt"), "w") as f:
+        for p in talk + [W("ending.mp4"), W("sting_h.mp4")]:
+            f.write(f"file '{p}'\n")
+    ff("-f", "concat", "-safe", "0", "-i", W("long.txt"), "-vf", V, *ENC, *AUD, W("long_voice.mp4"))
+    music_at = sum(duration(p) for p in talk)
+else:
+    with open(W("talk.txt"), "w") as f:
+        for p in talk:
+            f.write(f"file '{p}'\n")
+    ff("-f", "concat", "-safe", "0", "-i", W("talk.txt"), "-vf", V, *ENC, *AUD, W("talk.mp4"))
+    music_at = duration(W("talk.mp4")) - 0.5
+    ms = int(round(music_at * 1000))
+    ff("-i", W("talk.mp4"), "-i", W("sting_h.mp4"), "-filter_complex",
+       f"[0:v][1:v]xfade=transition=fade:duration=0.5:offset={music_at:.3f},format=yuv420p[v];"
+       f"[0:a]afade=t=out:st={music_at + 0.35:.3f}:d=0.15,apad[t];[1:a]adelay={ms}|{ms}[s];"
+       f"[t][s]amix=inputs=2:normalize=0:duration=longest,atrim=0:{music_at + duration(W('sting_h.mp4')):.3f}[a]",
+       "-map", "[v]", "-map", "[a]", *ENC, *AUD, W("long_voice.mp4"))
 total = duration(W("long_voice.mp4"))
 span = total - music_at
 ms = int(round(music_at * 1000))

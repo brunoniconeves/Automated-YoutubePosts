@@ -8,8 +8,8 @@ celular, e o fluxo (com o Claude Code, pela skill incluída) faz o resto.
 Para cada episódio ele gera:
 
 - um **roteiro** (`roteiro.html`) escrito a partir dos commits desde o último episódio;
-- um **vídeo longo 16:9**: sua abertura em tela cheia, depois você num canto sobre as cenas de cada tópico, um
-  final calmo com música e a vinheta do canal. **Sem legenda na imagem**: ele gera arquivos `.srt` em cada idioma
+- um **vídeo longo 16:9**: sua abertura em tela cheia, depois você num canto sobre as cenas de cada tópico, e direto
+  para a vinheta do canal com música (um trecho final só com música apenas se o roteiro pedir). **Sem legenda na imagem**: ele gera arquivos `.srt` em cada idioma
   para subir no YouTube Studio;
 - um **Short 9:16 por idioma** com legenda queimada palavra por palavra (a palavra falada num quadro colorido),
   cortado logo depois da sua última palavra e com fusão para a vinheta com música.

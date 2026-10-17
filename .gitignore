@@ -4,6 +4,7 @@ episodes/*
 # Rendered brand assets are rebuilt by tools/make_brand.py
 brand/*.mp4
 brand/*.m4a
+brand/_*
 # Python
 __pycache__/
 *.pyc

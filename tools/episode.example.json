@@ -14,7 +14,8 @@
       { "from": 2.6, "to": 55, "clips": [ { "file": "broll/title.mp4", "from": 0, "duration": 12 } ] }
     ],
     "labels": [ { "text": "15 ms · 60 fps", "from": 212.5, "to": 226.0 } ],
-    "ending": { "file": "broll/timelapse.mp4", "from": 0, "duration": 30 }
+    "_ending": "Optional: only when the script plans a music-only close before the sting (e.g. a time-lapse). Without it the video goes straight from the last word into the sting.",
+    "ending": { "file": "broll/timelapse.mp4", "from": 0, "duration": 8 }
   },
   "short": {
     "lines": [["main", 37.2, 42.2], ["main", 110.0, 121.7]],

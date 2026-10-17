@@ -8,8 +8,8 @@ the pipeline (and Claude Code, through the included skill) does the rest.
 For each episode it produces:
 
 - a **script** (`roteiro.html`) written from the commits since the last episode;
-- a **long 16:9 video**: your intro full screen, then you in a framed corner over footage of each topic, a calm
-  ending with music, your channel's sting. **No burned-in subtitles**: it writes `.srt` files for every language
+- a **long 16:9 video**: your intro full screen, then you in a framed corner over footage of each topic, straight into your
+  channel's sting with music (a music-only close only when your script plans one). **No burned-in subtitles**: it writes `.srt` files for every language
   you publish in, to upload in YouTube Studio;
 - one **9:16 Short per language** with burned-in word-by-word captions ("queimada" style: the word being said on a
   coloured box), cut right after your last word and crossfading into your sting with music.

@@ -37,13 +37,15 @@ other people's apps and never save their work.
 - The presenter drops the takes in `takes/` (an `intro` take said full screen, a `main` take).
 - `python tools/transcribe.py episodes/<date>/takes/<take>.mp4 --lang <main>` -> .txt/.srt/.words.json.
 - From the transcript fill `episode.json`: `long.cuts` (keep ranges of the main take: drop private moments,
-  false starts), `long.topics` (from which second each topic's b-roll runs), `labels`, `long.ending`,
-  `short.lines` (the Short's excerpts, ~60 s), `short.top` (b-roll on top, a title per language),
+  false starts), `long.topics` (from which second each topic's b-roll runs), `labels`,
+  `short.lines` (the Short's excerpts, ~60 s), `long.ending` only if the script plans a music-only close, `short.top` (b-roll on top, a title per language),
   `subtitles.fixes` (names the transcriber gets wrong), `face` crops. Show the presenter the cut plan.
 
 ## 4. Build
 1. `python tools/build_long.py <ep>`: intro full screen, presenter framed bottom-right over the topic b-roll,
-   the ending b-roll with the music starting where the voice ends, the 16:9 sting. No burned subtitles.
+   then straight from the last word into the 16:9 sting (0.5 s crossfade, music from there), like the Short. A
+   music-only close before the sting (a time-lapse, a recap) only when the script declares it (`long.ending`,
+   5-10 s of real movement). No burned subtitles.
 2. `python tools/build_short.py <ep>`: per language, b-roll square on top with the title, presenter below, cut
    right after the last word, 0.5 s crossfade into the 9:16 sting, music from the crossfade.
 3. `python tools/make_subs.py <ep>`: the long video's `.srt` in the main language and the Short's cues. It writes
@@ -67,6 +69,8 @@ other people's apps and never save their work.
 - `adelay` takes milliseconds (`adelay=302680|302680`), not "302.68s".
 - Transcriber timings on the raw takes can sit ~0.2 s off the final edit: measure on the final audio.
 - Don't hold the last frame before the sting; cut after the last word and crossfade.
+- The script decides the close: no music-only stretch unless roteiro.html and `long.ending` declare one. When
+  there is one, give it real movement and 5-10 s; a static or flat clip there reads as the video being stuck.
 - Whisper invents words in silence at the end of a take ("E aí", "Obrigado"): end `long.cuts` on the last
   real word, checked in the transcript, and look at the last cue of every .srt.
 - The long video's labels and titles burned into the picture stay in one language; prefer language-neutral
