@@ -1,0 +1,71 @@
+1
+00:00:00,050 --> 00:00:04,390
+Hi! This is a demo video.
+
+2
+00:00:05,620 --> 00:00:09,790
+It was put together entirely by an
+automated workflow.
+
+3
+00:00:11,040 --> 00:00:16,140
+First, the workflow looks at the commits
+since the last video.
+
+4
+00:00:16,940 --> 00:00:22,560
+And builds an HTML script with the
+episode's topics.
+
+5
+00:00:23,600 --> 00:00:28,020
+You record yourself on your phone,
+vertically.
+
+6
+00:00:29,630 --> 00:00:33,640
+Talk freely, the cuts come later.
+
+7
+00:00:35,010 --> 00:00:38,960
+The transcription marks the time of every
+word.
+
+8
+00:00:40,340 --> 00:00:44,640
+Meanwhile, the supporting footage gets
+recorded.
+
+9
+00:00:45,520 --> 00:00:49,440
+The long video comes out with no burned
+subtitles.
+
+10
+00:00:50,820 --> 00:00:55,940
+The subtitles go to YouTube as files, in
+each language.
+
+11
+00:00:57,240 --> 00:01:02,020
+The Shorts get burned captions, word by
+word.
+
+12
+00:01:03,400 --> 00:01:08,280
+And there are two versions, one in
+Portuguese and one in English.
+
+13
+00:01:09,880 --> 00:01:14,760
+First come light previews, and only then
+the finals.
+
+14
+00:01:16,030 --> 00:01:17,080
+That's it.
+
+15
+00:01:17,610 --> 00:01:20,220
+Follow along for the next ones.
+

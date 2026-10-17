@@ -13,8 +13,12 @@ from common import ROOT, FF, ff, duration, V, ENC, AUD
 
 ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 ap.add_argument("--voice", default="Microsoft Maria Desktop")
+ap.add_argument("--regenerate", action="store_true", help="re-make demo/assets (narration with text-to-speech, slides with a headless browser) instead of using the committed ones")
 a = ap.parse_args()
 EP = os.path.join(ROOT, "episodes", "demo")
+# The narration and the slides are committed here, so the demo rebuilds the same without the Windows voice
+# or a browser; --regenerate makes them again (and refreshes this folder).
+ASSETS = os.path.join(ROOT, "demo", "assets")
 for sub in ("takes", "broll", "work", "preview", "final"):
     os.makedirs(os.path.join(EP, sub), exist_ok=True)
 FONT = "C:/Windows/Fonts/arialbd.ttf"
@@ -139,7 +143,12 @@ def presenter(wav, mp4):
     work = os.path.join(EP, "work")
     bg = os.path.join(work, "presenter_bg.png")
     if not os.path.exists(bg):
-        presenter_background(bg)
+        kept = os.path.join(ASSETS, "presenter_bg.png")
+        if os.path.exists(kept) and not a.regenerate:
+            shutil.copy(kept, bg)
+        else:
+            presenter_background(bg)
+            os.makedirs(ASSETS, exist_ok=True); shutil.copy(bg, kept)
     for lv in range(16):
         p = os.path.join(work, f"orb_{lv:02d}.png")
         if not os.path.exists(p):
@@ -194,16 +203,33 @@ def slide(title, sub, path, n):
 # Narration: the intro take, and the main take (the steps and the closing).
 intro_s = INTRO
 main_s = [s for _, _, ss in STEPS for s in ss] + CLOSING
-intro_t = tts([p for p, _ in intro_s], os.path.join(EP, "work", "intro.wav"))
-main_t = tts([p for p, _ in main_s], os.path.join(EP, "work", "main.wav"))
+import shutil
+times_file = os.path.join(ASSETS, "narration.json")
+if os.path.exists(times_file) and not a.regenerate:
+    times = json.load(open(times_file, encoding="utf-8"))
+    for take in ("intro", "main"):
+        ff("-i", os.path.join(ASSETS, f"{take}.flac"), os.path.join(EP, "work", f"{take}.wav"))
+    intro_t, main_t = [tuple(x) for x in times["intro"]], [tuple(x) for x in times["main"]]
+else:
+    intro_t = tts([p for p, _ in intro_s], os.path.join(EP, "work", "intro.wav"))
+    main_t = tts([p for p, _ in main_s], os.path.join(EP, "work", "main.wav"))
+    os.makedirs(ASSETS, exist_ok=True)
+    for take in ("intro", "main"):
+        ff("-i", os.path.join(EP, "work", f"{take}.wav"), "-c:a", "flac", os.path.join(ASSETS, f"{take}.flac"))
+    json.dump({"voice": a.voice, "intro": intro_t, "main": main_t}, open(times_file, "w", encoding="utf-8"), indent=1)
 presenter(os.path.join(EP, "work", "intro.wav"), os.path.join(EP, "takes", "intro.mp4"))
 presenter(os.path.join(EP, "work", "main.wav"), os.path.join(EP, "takes", "main.mp4"))
 
-# B-roll: a slide per step, slowly zooming; an animated gradient for the ending.
+# B-roll: a slide per step, slowly zooming.
 topics, k = [], 0
 for i, (title, sub, ss) in enumerate(STEPS):
     png = os.path.join(EP, "work", f"slide_{i}.png")
-    slide(title, sub, png, i + 1)
+    kept = os.path.join(ASSETS, f"slide_{i}.png")
+    if os.path.exists(kept) and not a.regenerate:
+        shutil.copy(kept, png)
+    else:
+        slide(title, sub, png, i + 1)
+        shutil.copy(png, kept)
     clip = f"broll/step_{i}.mp4"
     ff("-loop", "1", "-t", 12, "-i", png, "-vf",
        "scale=3840:-2,zoompan=z='1.0+0.0006*on':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30,format=yuv420p",

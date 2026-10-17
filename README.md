@@ -20,6 +20,8 @@ Light previews come first; finals only after you approve them.
 
 ![Long video frame](docs/long.png)
 
+![Channel sting](docs/sting.png)
+
 ## How it works
 
 ```
@@ -44,12 +46,21 @@ commits since the last episode ─► roteiro.html ─► you record (phone, ver
 - Optional: [Claude Code](https://claude.com/claude-code); the skill in `.claude/skills/youtube-episode` drives
   the whole thing.
 
-## Quickstart (the demo)
+## Example results
 
-The demo needs no camera and no project: it narrates the workflow itself with Windows' built-in text-to-speech.
+The demo episode, as the pipeline made it: [long video](examples/demo/episode_demo_long.mp4) (16:9, no burned
+subtitles) with its [pt](examples/demo/episode_demo_long.pt.srt) and [en](examples/demo/episode_demo_long.en.srt)
+subtitles, [Short in Portuguese](examples/demo/episode_demo_short_pt.mp4) and
+[Short in English](examples/demo/episode_demo_short_en.mp4).
+
+## Quickstart: rebuild the demo
+
+The demo needs no camera and no project: a narrated walkthrough of the workflow itself. Everything it starts from is
+committed (`brand/`: logo, 3D stings, music; `demo/assets/`: the narration and the slides), so a clean clone
+rebuilds it with no Blender, no text-to-speech and no browser:
 
 ```bash
-python tools/make_brand.py                 # placeholder logo, stings and music in brand/
+pip install -r requirements.txt
 python demo/make_demo.py                   # episodes/demo: takes, b-roll, episode.json, translations.json
 python tools/transcribe.py episodes/demo/takes/intro.mp4
 python tools/transcribe.py episodes/demo/takes/main.mp4
@@ -58,8 +69,19 @@ python tools/build_short.py episodes/demo
 python tools/make_subs.py episodes/demo
 python tools/captions.py episodes/demo pt
 python tools/captions.py episodes/demo en
-python tools/finalize.py episodes/demo     # after looking at preview/
+python tools/finalize.py episodes/demo     # episodes/demo/final: long + .srt, Short PT, Short EN
+python tools/check_sums.py                 # compare with examples/demo (SHA-256)
 ```
+
+With the same tool versions (below) the rebuild is identical byte for byte: a clean clone gave the same SHA-256
+for all five files. Another ffmpeg/x264 build, faster-whisper version or font gives the same video, but not the
+same bytes, so `check_sums.py` will say DIFFERENT.
+
+Made with: Windows 11, Python 3.11.6, ffmpeg 7.1.1 (gyan.dev essentials build), faster-whisper 1.2.1 (ctranslate2
+4.8.3, model large-v3-turbo, CPU int8), Pillow 12.3.0, numpy 1.26.2; fonts Arial Black and Arial Bold (captions,
+labels). `python demo/make_demo.py --regenerate` re-makes the narration (Windows voice "Microsoft Maria Desktop")
+and the slides (Edge or Chrome, headless); `python tools/make_brand.py --blender "<blender>"` re-makes the brand
+(Blender 4.2+ for the 3D stings, a 2D version without it).
 
 ## Your own episodes
 

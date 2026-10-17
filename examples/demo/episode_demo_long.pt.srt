@@ -1,0 +1,71 @@
+1
+00:00:00,050 --> 00:00:04,390
+Oi! Este é um vídeo de demonstração.
+
+2
+00:00:05,620 --> 00:00:09,790
+Ele foi montado inteiro por um fluxo
+automático.
+
+3
+00:00:11,040 --> 00:00:16,140
+Primeiro, o fluxo olha os commits desde o
+último vídeo.
+
+4
+00:00:16,940 --> 00:00:22,560
+E monta um roteiro em HTML com os tópicos
+do episódio.
+
+5
+00:00:23,600 --> 00:00:28,020
+Você grava a sua fala no celular, na
+vertical.
+
+6
+00:00:29,630 --> 00:00:33,640
+Pode falar à vontade, os cortes vêm
+depois.
+
+7
+00:00:35,010 --> 00:00:38,960
+A transcrição marca o tempo de cada
+palavra.
+
+8
+00:00:40,340 --> 00:00:44,640
+Enquanto isso, as cenas de apoio são
+gravadas.
+
+9
+00:00:45,520 --> 00:00:49,440
+O vídeo longo sai sem legenda na imagem.
+
+10
+00:00:50,820 --> 00:00:55,940
+As legendas vão para o YouTube em
+arquivos, em cada idioma.
+
+11
+00:00:57,240 --> 00:01:02,020
+Os shorts ganham legenda queimada, palavra
+por palavra.
+
+12
+00:01:03,400 --> 00:01:08,280
+E saem duas versões, uma em português e
+outra em inglês.
+
+13
+00:01:09,880 --> 00:01:14,760
+Primeiro vem as prévias leves, e só depois
+os finais.
+
+14
+00:01:16,030 --> 00:01:17,080
+É isso.
+
+15
+00:01:17,610 --> 00:01:20,220
+Me segue para ver os próximos.
+
