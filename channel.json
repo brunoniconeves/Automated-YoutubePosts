@@ -1,0 +1,24 @@
+{
+  "_comment": "Channel-wide settings. Paths are relative to this repository.",
+  "name": "Your Channel",
+  "project_repo": "..",
+  "languages": { "main": "pt", "extra": ["en"] },
+  "brand": {
+    "logo": "brand/logo.png",
+    "sting_h": "brand/sting_h.mp4",
+    "sting_v": "brand/sting_v.mp4",
+    "music": "brand/music.m4a"
+  },
+  "captions": {
+    "font": "C:/Windows/Fonts/ariblk.ttf",
+    "size": 80,
+    "box_color": "#6A3CF0",
+    "max_words": 4,
+    "max_chars": 22,
+    "y": 870
+  },
+  "labels_font": "C:/Windows/Fonts/arialbd.ttf",
+  "output": { "prefix": "episode" },
+  "music_level_lufs": -16,
+  "voice_level_lufs": -14
+}

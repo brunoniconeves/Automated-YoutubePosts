@@ -1,0 +1,28 @@
+{
+  "_comment": "One episode. Times are seconds on the takes (from <take>.txt / .words.json). Paths are relative to the episode folder.",
+  "title": "What changed this week",
+  "takes": { "intro": "takes/intro.mp4", "main": "takes/main.mp4" },
+  "face": {
+    "_comment": "Crops of the vertical (1080x1920) phone takes: x, y, w, h.",
+    "full": [0, 620, 1080, 1300],
+    "pip": [0, 560, 1080, 1080],
+    "short": [0, 600, 1080, 840]
+  },
+  "long": {
+    "cuts": [[2.6, 193.8], [210.6, 278.7]],
+    "topics": [
+      { "from": 2.6, "to": 55, "clips": [ { "file": "broll/title.mp4", "from": 0, "duration": 12 } ] }
+    ],
+    "labels": [ { "text": "15 ms · 60 fps", "from": 212.5, "to": 226.0 } ],
+    "ending": { "file": "broll/timelapse.mp4", "from": 0, "duration": 30 }
+  },
+  "short": {
+    "lines": [["main", 37.2, 42.2], ["main", 110.0, 121.7]],
+    "top": [
+      { "file": "broll/editor.mp4", "from": 0, "duration": 18, "crop": "center", "title": { "pt": "Título em português", "en": "Title in English" } },
+      { "file": "broll/timelapse.mp4", "from": 0, "duration": 60, "crop": "center", "title": { "pt": "", "en": "" } }
+    ]
+  },
+  "subtitles": { "fixes": [["wrong word", "right word"]] },
+  "translations": "translations.json"
+}

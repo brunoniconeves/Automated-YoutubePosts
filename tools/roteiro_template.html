@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+  :root { --bg: #f4f6fb; --card: #fff; --ink: #1b2433; --muted: #5d6b82; --accent: #6a3cf0; --chip: #e6e9f5; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #111722; --card: #1a2232; --ink: #e8eef8; --muted: #9aa8bf; --chip: #24324a; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 system-ui, "Segoe UI", sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 1.7rem; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  section { background: var(--card); border-radius: 14px; padding: 18px 20px; margin: 0 0 16px; box-shadow: 0 1px 3px rgb(0 0 0 / .08); }
+  h2 { font-size: 1.1rem; margin: 0 0 10px; }
+  .topic { border-left: 4px solid var(--accent); padding: 4px 0 4px 14px; margin: 14px 0; }
+  .topic h3 { margin: 0 0 4px; font-size: 1rem; }
+  .say::before { content: "🎙 "; } .shot { color: var(--muted); font-size: .92rem; } .shot::before { content: "🎬 "; }
+  .commits { color: var(--muted); font-size: .85rem; }
+  code { background: var(--chip); padding: 1px 5px; border-radius: 5px; font-size: .85em; }
+  .short { background: linear-gradient(135deg, rgb(106 60 240 / .08), transparent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>{{TITLE}}</h1>
+  <p class="sub">{{SUBTITLE}}</p>
+  <section><h2>{{INTRO_HEADING}}</h2><p class="say">{{INTRO}}</p></section>
+  <section><h2>{{TOPICS_HEADING}}</h2>
+    {{TOPICS}}
+  </section>
+  <section><h2>{{CLOSING_HEADING}}</h2><p class="say">{{CLOSING}}</p></section>
+  <section class="short"><h2>Short</h2><ul>{{SHORT}}</ul></section>
+  <section><h2>{{TIPS_HEADING}}</h2><ul>{{TIPS}}</ul></section>
+</main>
+</body>
+</html>

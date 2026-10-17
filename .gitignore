@@ -1,0 +1,11 @@
+# Episodes: takes (your voice and face), b-roll and every render stay on your machine.
+episodes/*
+!episodes/.gitkeep
+# Rendered brand assets are rebuilt by tools/make_brand.py
+brand/*.mp4
+brand/*.m4a
+# Python
+__pycache__/
+*.pyc
+# Scratch
+docs/_*
