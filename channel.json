@@ -7,7 +7,18 @@
     "logo": "brand/logo.png",
     "sting_h": "brand/sting_h.mp4",
     "sting_v": "brand/sting_v.mp4",
-    "music": "brand/music.m4a"
+    "music": "brand/music.m4a",
+    "subscribe": "brand/subscribe_pt.mov"
+  },
+  "subscribe": {
+    "_comment": "tools/subscribe_overlay.py: the reminder overlaid at long.subscribe. y is the words' centre (share of the height), kept above the presenter's frame.",
+    "text": { "pt": "JÁ SE INSCREVEU?", "en": "SUBSCRIBED YET?" },
+    "font": "C:/Windows/Fonts/bahnschrift.ttf",
+    "font_variation": "Bold Condensed",
+    "size": 190,
+    "y": 0.45,
+    "light_color": "#50AFFF",
+    "hold": 4.0
   },
   "captions": {
     "font": "C:/Windows/Fonts/ariblk.ttf",

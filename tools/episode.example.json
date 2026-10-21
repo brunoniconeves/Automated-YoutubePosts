@@ -14,6 +14,8 @@
       { "from": 2.6, "to": 55, "clips": [ { "file": "broll/title.mp4", "from": 0, "duration": 12 } ] }
     ],
     "labels": [ { "text": "15 ms · 60 fps", "from": 212.5, "to": 226.0 } ],
+    "_subscribe": "Times on the main take where the subscribe reminder starts (the spoken reminder, about a third in, and the close).",
+    "subscribe": [64.0, 270.5],
     "_ending": "Optional: only when the script plans a music-only close before the sting (e.g. a time-lapse). Without it the video goes straight from the last word into the sting.",
     "ending": { "file": "broll/timelapse.mp4", "from": 0, "duration": 8 }
   },

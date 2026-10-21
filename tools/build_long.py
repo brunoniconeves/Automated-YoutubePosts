@@ -68,9 +68,19 @@ for lab in cfg["long"].get("labels", []):
     text = lab["text"].replace(":", "\\:").replace("'", "’")
     labels += (f",drawtext=fontfile='{font}':text='{text}':fontsize=58:fontcolor=white:box=1:boxcolor=0x10233a@0.75:"
                f"boxborderw=24:x=(w-tw)/2:y=90:enable='between(t,{a_:.2f},{b_:.2f})'")
-ff("-i", W("bg.mp4"), "-i", W("cut.mp4"), "-filter_complex",
+# The subscribe reminder (tools/subscribe_overlay.py) over whatever plays at each long.subscribe time of the main take.
+subs_in, subs_fx, last = [], "", "base"
+sub_file = ep.asset(ch["brand"].get("subscribe", f"brand/subscribe_{ch['languages']['main']}.mov"))
+for k, s in enumerate(cfg["long"].get("subscribe", [])):
+    at = ep.cut_time(s)
+    if at is None or not os.path.exists(sub_file):
+        continue
+    subs_in += ["-i", sub_file]
+    subs_fx += f";[{2 + k}:v]setpts=PTS+{at:.3f}/TB[sb{k}];[{last}][sb{k}]overlay=0:0:eof_action=pass[s{k}]"
+    last = f"s{k}"
+ff("-i", W("bg.mp4"), "-i", W("cut.mp4"), *subs_in, "-filter_complex",
    f"[1:v]crop={pw}:{ph}:{px}:{py},scale=400:400,pad=412:412:6:6:color=white[pip];"
-   f"[0:v][pip]overlay=W-w-40:H-h-40{labels},{V}[v]",
+   f"[0:v][pip]overlay=W-w-40:H-h-40{labels}[base]{subs_fx};[{last}]{V}[v]",
    "-map", "[v]", "-map", "1:a", *ENC, *AUD, "-shortest", W("body.mp4"))
 
 # 3. The close. Only when the script plans one (long.ending), a stretch of b-roll with music and no voice before

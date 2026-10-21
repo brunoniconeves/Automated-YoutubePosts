@@ -13,6 +13,9 @@ The demo episode (`python demo/make_demo.py`) shows every input in place.
 - `channel.json`: channel name, `project_repo` (the code the episodes are about), languages, caption style, brand paths.
 - Brand assets are fixed: your own logo, `sting_h` (16:9) and `sting_v` (9:16) stings and a music track. Without
   them, `python tools/make_brand.py` makes placeholders. Never regenerate them per episode.
+- The subscribe reminder, once per language: `python tools/subscribe_overlay.py --lang <lang>` -> `brand/subscribe_<lang>.mov`
+  (transparent; lights spiral in on round curves, the words appear in a flash, two calm turns, the lights fade, the
+  words hold `subscribe.hold` s alone, the lights come back and spiral out taking the words, clean screen at the end).
 
 ## 1. Script
 1. `python tools/new_episode.py [date]`: the folder, `episode.json` from the example, and `changes.json` (every
@@ -22,7 +25,13 @@ The demo episode (`python demo/make_demo.py`) shows every input in place.
 3. Write `roteiro.html` from `tools/roteiro_template.html`: an opening to say full screen, per topic a suggested
    line (casual, in the presenter's voice) and the footage you will show, a closing, 4-6 lines for the Short,
    recording tips (phone vertical, face in the lower half, talk freely). Never promise a release frequency.
-4. Give the presenter the path (a file sent to your own session view may not reach them).
+   - For a long episode (~10 min) write the full spoken lines, not bullets (~130 words a minute, a duration per
+     block, the real numbers from the commits), so the presenter can read them.
+   - Always a subscribe reminder: a highlighted block about a third in with the line to say, and again at the close.
+     It is easy to forget on camera, so it belongs in the script.
+4. Give the presenter the script where they will read it: if they review from a phone, publish roteiro.html as a web
+   page (Artifact) with small images and republish the same page on every change; a local path or a file sent to
+   your own session view may not reach them.
 
 ## 2. Footage, while they record
 Start as soon as the script is approved; don't wait for the takes. Everything 1920x1080 30 fps into `broll/`:
@@ -30,15 +39,21 @@ screen or window captures (`ffmpeg -f gdigrab` on Windows, `avfoundation` on mac
 product, the editor or the terminal; scripted runs of the product if it can render itself; before/after pairs
 (the project at the commit before the period, in a separate `git worktree`, never by checking out old commits in
 the working folder; same camera or screen, then a wipe); a calm clip for the ending (time-lapse, ambience).
-Make a contact sheet of every clip and look at it before using it. If the machine is shared, ask before closing
-other people's apps and never save their work.
+Make a contact sheet of every clip and look at it before using it (camera moves often end inside a tree or under the
+ground: redo or trim them). If the machine is shared, ask before closing other people's apps and never save their work.
+- A feature the old commit does not have yet: compare with the feature's own off switch on the current build, or with
+  stills saved while it was made, and say so in the video.
+- Debug views make great footage (LOD colouring, wireframe, overdraw): render them the same way as the normal shot.
+- Screen capture records nothing while the OS session is locked (Windows: `LogonUI` running): only the wallpaper.
+  Ask the presenter to unlock and keep off the mouse, and record the whole virtual desktop, cropping later.
+- Long render batches: post a one-line progress note about every 5 minutes; silence reads as stuck.
 
 ## 3. Takes and the cut
 - The presenter drops the takes in `takes/` (an `intro` take said full screen, a `main` take).
 - `python tools/transcribe.py episodes/<date>/takes/<take>.mp4 --lang <main>` -> .txt/.srt/.words.json.
 - From the transcript fill `episode.json`: `long.cuts` (keep ranges of the main take: drop private moments,
   false starts), `long.topics` (from which second each topic's b-roll runs), `labels`,
-  `short.lines` (the Short's excerpts, ~60 s), `long.ending` only if the script plans a music-only close, `short.top` (b-roll on top, a title per language),
+  `long.subscribe` (take times where the spoken reminder starts), `short.lines` (the Short's excerpts, ~60 s), `long.ending` only if the script plans a music-only close, `short.top` (b-roll on top, a title per language),
   `subtitles.fixes` (names the transcriber gets wrong), `face` crops. Show the presenter the cut plan.
 
 ## 4. Build
@@ -73,5 +88,7 @@ other people's apps and never save their work.
   there is one, give it real movement and 5-10 s; a static or flat clip there reads as the video being stuck.
 - Whisper invents words in silence at the end of a take ("E aí", "Obrigado"): end `long.cuts` on the last
   real word, checked in the transcript, and look at the last cue of every .srt.
+- Iterate overlays (the subscribe reminder, title cards) on a short test clip and send previews; presenters judge
+  motion: the curve of an entrance, how long the words hold, an ending that waits for the screen to clear.
 - The long video's labels and titles burned into the picture stay in one language; prefer language-neutral
   text (numbers, arrows) or make a version per language.
